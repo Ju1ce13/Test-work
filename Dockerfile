@@ -1,7 +1,8 @@
 FROM python:3.12-slim
+RUN pip install poetry
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root
 COPY . .
 EXPOSE 8080
-CMD ["python", "app.py"]
+CMD ["poetry", "run", "python", "app.py"]
